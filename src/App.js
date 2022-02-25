@@ -1,5 +1,79 @@
 import React, {Component} from 'react'
-import './App.css'
+import styled from "styled-components"
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body{
+    background-color: plum;
+  }
+`
+
+const Container = styled.form`
+  background-color: indigo;
+  color: plum;
+  margin: 2.5vw 3vw;
+  padding: 2vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2vw;
+`
+
+const Box = styled.div`
+  margin-top: 6vh;
+  display: flex;
+}
+`
+
+const Input = styled.input`
+  font-size: 3vh;
+  height: 4vh;
+  border: none;
+  background-color: plum;
+`
+
+const AddButton = styled.button`
+  border: none;
+  background-color: plum;
+  color: indigo;
+  width: 3vw;
+
+  &:hover{
+    border: 2px solid indigo;
+    font-weight: 700;
+  }
+`
+
+const Items = styled.div`
+  margin-top: 5vh;
+  font-size: 1.5vw;
+`
+
+const List = styled.ul`
+  margin-top: 2vh;
+  display: flex;
+  width: 60vw;
+  justify-content: space-between;
+  list-style: none;
+`
+
+const RemoveButton = styled.button`
+  border: none;
+  height: 4vh;
+  background-color: plum;
+  color: indigo;
+  width: 2vw;
+  
+  &:hover{
+    border: 2px solid indigo;
+    font-weight: 700;
+  }
+`
 
 export default class ToDo extends Component{
   
@@ -14,7 +88,7 @@ export default class ToDo extends Component{
     })
   }
 
-  add = () => {
+  add = (e) => {
     let {lista, tarefa} = this.state
     if(tarefa != 0 || null){
       this.setState({
@@ -25,6 +99,7 @@ export default class ToDo extends Component{
         tarefa: ""
       })
     }
+    e.preventDefault()
   }
 
   remove = (id) => {
@@ -40,21 +115,22 @@ export default class ToDo extends Component{
     let {handleChange, add, remove} = this
     let {tarefa, lista} = this.state
     return(
-      <div className='container'>
+      <Container>
+        <GlobalStyle/>
         <h1>ToDo List</h1>
-        <div className='box'>
-          <input value={tarefa} onChange={handleChange}/>
-          <button onClick={add}>ADD</button>
-        </div>
-        <div className='items'>
-          {lista. map((item) => (
-            <ul>
+        <Box>
+          <Input value={tarefa} onChange={handleChange}/>
+          <AddButton onClick={add}>ADD</AddButton>
+        </Box>
+        <Items>
+          {lista.map((item) => (
+            <List>
               <li>{item.tarefa}</li>
-              <button onClick={() => remove(item.id)}>X</button>
-            </ul>
+              <RemoveButton onClick={() => remove(item.id)}>X</RemoveButton>
+            </List>
           ))}
-        </div>
-      </div>
+        </Items>
+      </Container>
     )
   }
 }
